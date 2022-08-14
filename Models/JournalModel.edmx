@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище JournalDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupNumber" Type="int" Nullable="false" />
+          <Property Name="IdSpecialization" Type="int" />
+        </EntityType>
+        <EntityType Name="ReportCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameDiscipline" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateFilling" Type="datetime" Nullable="false" />
+          <Property Name="IdSpecialization" Type="int" />
+          <Property Name="IdGroup" Type="int" />
+          <Property Name="IdUsers" Type="int" />
+          <Property Name="NumberLectures" Type="int" />
+          <Property Name="NumberPractical" Type="int" />
+          <Property Name="NumberLabs" Type="int" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="NameSpecialty" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdGroup" Type="int" />
+        </EntityType>
+        <EntityType Name="StudentInReportCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdStudent" Type="int" />
+          <Property Name="IdReportCard" Type="int" />
+          <Property Name="Scores" Type="int" Nullable="false" />
+          <Property Name="NumberMissedLectures" Type="int" />
+          <Property Name="NumberMissedPractical" Type="int" />
+          <Property Name="NumberMissedLabs" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Log" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Group_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="IdSpecialization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportCard_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportCard_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="IdSpecialization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportCard_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="IdUsers" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInReportCard_ReportCard">
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="0..1" />
+          <End Role="StudentInReportCard" Type="Self.StudentInReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCard">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentInReportCard">
+              <PropertyRef Name="IdReportCard" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInReportCard_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="StudentInReportCard" Type="Self.StudentInReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentInReportCard">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище JournalDBModelContainer">
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportCard" EntityType="Self.ReportCard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialization" EntityType="Self.Specialization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentInReportCard" EntityType="Self.StudentInReportCard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Group_Specialization" Association="Self.FK_Group_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportCard_Group" Association="Self.FK_ReportCard_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportCard_Specialization" Association="Self.FK_ReportCard_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportCard_Users" Association="Self.FK_ReportCard_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Group" Association="Self.FK_Student_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInReportCard_ReportCard" Association="Self.FK_StudentInReportCard_ReportCard">
+            <End Role="ReportCard" EntitySet="ReportCard" />
+            <End Role="StudentInReportCard" EntitySet="StudentInReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInReportCard_Student" Association="Self.FK_StudentInReportCard_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentInReportCard" EntitySet="StudentInReportCard" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JournalDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="GroupNumber" Type="Int32" Nullable="false" />
+          <Property Name="IdSpecialization" Type="Int32" />
+          <NavigationProperty Name="Specialization" Relationship="Self.FK_Group_Specialization" FromRole="Group" ToRole="Specialization" />
+          <NavigationProperty Name="ReportCard" Relationship="Self.FK_ReportCard_Group" FromRole="Group" ToRole="ReportCard" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_Student_Group" FromRole="Group" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="ReportCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="NameDiscipline" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateFilling" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdSpecialization" Type="Int32" />
+          <Property Name="IdGroup" Type="Int32" />
+          <Property Name="IdUsers" Type="Int32" />
+          <Property Name="NumberLectures" Type="Int32" />
+          <Property Name="NumberPractical" Type="Int32" />
+          <Property Name="NumberLabs" Type="Int32" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_ReportCard_Group" FromRole="ReportCard" ToRole="Group" />
+          <NavigationProperty Name="Specialization" Relationship="Self.FK_ReportCard_Specialization" FromRole="ReportCard" ToRole="Specialization" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_ReportCard_Users" FromRole="ReportCard" ToRole="Users" />
+          <NavigationProperty Name="StudentInReportCard" Relationship="Self.FK_StudentInReportCard_ReportCard" FromRole="ReportCard" ToRole="StudentInReportCard" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NameSpecialty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_Group_Specialization" FromRole="Specialization" ToRole="Group" />
+          <NavigationProperty Name="ReportCard" Relationship="Self.FK_ReportCard_Specialization" FromRole="Specialization" ToRole="ReportCard" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdGroup" Type="Int32" />
+          <NavigationProperty Name="Group" Relationship="Self.FK_Student_Group" FromRole="Student" ToRole="Group" />
+          <NavigationProperty Name="StudentInReportCard" Relationship="Self.FK_StudentInReportCard_Student" FromRole="Student" ToRole="StudentInReportCard" />
+        </EntityType>
+        <EntityType Name="StudentInReportCard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdStudent" Type="Int32" />
+          <Property Name="IdReportCard" Type="Int32" />
+          <Property Name="Scores" Type="Int32" Nullable="false" />
+          <Property Name="NumberMissedLectures" Type="Int32" />
+          <Property Name="NumberMissedPractical" Type="Int32" />
+          <Property Name="NumberMissedLabs" Type="Int32" />
+          <NavigationProperty Name="ReportCard" Relationship="Self.FK_StudentInReportCard_ReportCard" FromRole="StudentInReportCard" ToRole="ReportCard" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_StudentInReportCard_Student" FromRole="StudentInReportCard" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Log" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ReportCard" Relationship="Self.FK_ReportCard_Users" FromRole="Users" ToRole="ReportCard" />
+        </EntityType>
+        <Association Name="FK_Group_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="IdSpecialization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportCard_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Student_Group">
+          <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="IdGroup" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportCard_Specialization">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="IdSpecialization" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportCard_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportCard">
+              <PropertyRef Name="IdUsers" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInReportCard_ReportCard">
+          <End Role="ReportCard" Type="Self.ReportCard" Multiplicity="0..1" />
+          <End Role="StudentInReportCard" Type="Self.StudentInReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCard">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentInReportCard">
+              <PropertyRef Name="IdReportCard" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentInReportCard_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="StudentInReportCard" Type="Self.StudentInReportCard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentInReportCard">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JournalDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Group" EntityType="Self.Group" />
+          <EntitySet Name="ReportCard" EntityType="Self.ReportCard" />
+          <EntitySet Name="Specialization" EntityType="Self.Specialization" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="StudentInReportCard" EntityType="Self.StudentInReportCard" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Group_Specialization" Association="Self.FK_Group_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportCard_Group" Association="Self.FK_ReportCard_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Student_Group" Association="Self.FK_Student_Group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportCard_Specialization" Association="Self.FK_ReportCard_Specialization">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportCard_Users" Association="Self.FK_ReportCard_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ReportCard" EntitySet="ReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInReportCard_ReportCard" Association="Self.FK_StudentInReportCard_ReportCard">
+            <End Role="ReportCard" EntitySet="ReportCard" />
+            <End Role="StudentInReportCard" EntitySet="StudentInReportCard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentInReportCard_Student" Association="Self.FK_StudentInReportCard_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentInReportCard" EntitySet="StudentInReportCard" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище JournalDBModelContainer" CdmEntityContainer="JournalDBEntities">
+          <EntitySetMapping Name="Group">
+            <EntityTypeMapping TypeName="JournalDBModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupNumber" ColumnName="GroupNumber" />
+                <ScalarProperty Name="IdSpecialization" ColumnName="IdSpecialization" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportCard">
+            <EntityTypeMapping TypeName="JournalDBModel.ReportCard">
+              <MappingFragment StoreEntitySet="ReportCard">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NameDiscipline" ColumnName="NameDiscipline" />
+                <ScalarProperty Name="DateFilling" ColumnName="DateFilling" />
+                <ScalarProperty Name="IdSpecialization" ColumnName="IdSpecialization" />
+                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
+                <ScalarProperty Name="IdUsers" ColumnName="IdUsers" />
+                <ScalarProperty Name="NumberLectures" ColumnName="NumberLectures" />
+                <ScalarProperty Name="NumberPractical" ColumnName="NumberPractical" />
+                <ScalarProperty Name="NumberLabs" ColumnName="NumberLabs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialization">
+            <EntityTypeMapping TypeName="JournalDBModel.Specialization">
+              <MappingFragment StoreEntitySet="Specialization">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="NameSpecialty" ColumnName="NameSpecialty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="JournalDBModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="IdGroup" ColumnName="IdGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentInReportCard">
+            <EntityTypeMapping TypeName="JournalDBModel.StudentInReportCard">
+              <MappingFragment StoreEntitySet="StudentInReportCard">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
+                <ScalarProperty Name="IdReportCard" ColumnName="IdReportCard" />
+                <ScalarProperty Name="Scores" ColumnName="Scores" />
+                <ScalarProperty Name="NumberMissedLectures" ColumnName="NumberMissedLectures" />
+                <ScalarProperty Name="NumberMissedPractical" ColumnName="NumberMissedPractical" />
+                <ScalarProperty Name="NumberMissedLabs" ColumnName="NumberMissedLabs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="JournalDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Log" ColumnName="Log" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
