@@ -1,4 +1,4 @@
-﻿<Page x:Class="AccountingQualityAcademicWork.Windows.AddingReportCard"
+﻿<Window x:Class="AccountingQualityAcademicWork.Windows.AddingReportCard"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,16 +13,61 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0"></DataGrid>
+        <DataGrid x:Name="DgReportCards" Grid.Row="0" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дисциплина" Binding="{Binding Path=NameDiscipline}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата заполнения" Binding="{Binding Path=DateFilling}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Специальность" Binding="{Binding Path=Specialization.NameSpecialty}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Группа" Binding="{Binding Path=Group.GroupNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Преподаватель" Binding="{Binding Path=Users.FullName}"></DataGridTextColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="BtnEditInfo" Content="Редактировать" Click="BtnEditInfo_Click"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--Форма добавления ведомости-->
+        <Grid x:Name="GridAddingForm" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0">Наименование дисциплины</TextBlock>
+            <TextBox x:Name="TbName" Grid.Column="1" Grid.Row="0"></TextBox>
+            <TextBlock Grid.Column="0" Grid.Row="1">Специальность</TextBlock>
+            <ComboBox x:Name="CbSpecialization" Grid.Column="1" Grid.Row="1" DisplayMemberPath="Code"></ComboBox>
+            <TextBlock Grid.Column="0" Grid.Row="2">Группа</TextBlock>
+            <ComboBox x:Name="CbGroup" Grid.Column="1" Grid.Row="2" DisplayMemberPath="GroupNumber"></ComboBox>
+            <TextBlock Grid.Column="0" Grid.Row="3">Преподаватель</TextBlock>
+            <ComboBox x:Name="CbTeacher" Grid.Column="1" Grid.Row="3" DisplayMemberPath="FullName"></ComboBox>
+            <TextBlock Grid.Column="0" Grid.Row="4">Количество лекционных занятий</TextBlock>
+            <TextBox x:Name="TbLectionCount" Grid.Column="1" Grid.Row="4"></TextBox>
+            <TextBlock Grid.Column="0" Grid.Row="5">Количество практических занятий</TextBlock>
+            <TextBox x:Name="TbPracticalCount" Grid.Column="1" Grid.Row="5"></TextBox>
+            <TextBlock Grid.Column="0" Grid.Row="6">Количество лабораторных занятий</TextBlock>
+            <TextBox x:Name="TbLabsCount" Grid.Column="1" Grid.Row="6"></TextBox>
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0">Добавить ведомость</Button>
+            <Button x:Name="BnAddingReportCard" Click="BnAddingReportCard_Click" Grid.Row="0">Добавить ведомость</Button>
             <Button Grid.Row="1">Открыть ведомость</Button>
             <Button Grid.Row="2">Удалить ведомость</Button>
         </Grid>
     </Grid>
-</Page>
+</Window>

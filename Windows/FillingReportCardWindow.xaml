@@ -1,0 +1,29 @@
+﻿<Window x:Class="AccountingQualityAcademicWork.Windows.FillingReportCardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
+        mc:Ignorable="d"
+        Title="FillingReportCardWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Row="0" Columns="3">
+            <Button x:Name="BnSaveChanges" Click="BnSaveChanges_Click">Сохранить изменения</Button>
+            <Button x:Name="BnSaveWord" Click="BnSaveWord_Click">Сохранить в Word</Button>
+            <Button x:Name="BnBack" Click="BnBack_Click">Назад</Button>
+        </UniformGrid>
+        <DataGrid x:Name="DgStatement" Grid.Row="1" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия, имя, отчество" Binding="{Binding Path=Student.FullName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Количество баллов"  Binding="{Binding Path=Scores}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Пропущенных лекций" Binding="{Binding Path=NumberMissedLectures}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Пропущенных пр.занятий" Binding="{Binding Path=NumberMissedPractical}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Пропущенных лаб. занятий" Binding="{Binding Path=NumberMissedLabs}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

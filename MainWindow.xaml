@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="300">
     <Grid>
-        <Button x:Name="BnEnter" Click="BnEnter_Click">ВОЙТИ</Button>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button x:Name="BnEnter" Click="BnEnter_Click" Grid.Row="0">Добавить студента</Button>
+        <Button x:Name="BnEnterMenu" Click="BnEnterMenu_Click" Grid.Row="1">Меню табелей</Button>
     </Grid>
 </Window>

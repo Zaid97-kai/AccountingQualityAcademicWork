@@ -31,5 +31,12 @@ namespace AccountingQualityAcademicWork
             addingStudentWindow.Show();
             this.Hide();
         }
+
+        private void BnEnterMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.AddingReportCard addingReportCard = new Windows.AddingReportCard(this);
+            addingReportCard.Show();
+            this.Hide();
+        }
     }
 }
