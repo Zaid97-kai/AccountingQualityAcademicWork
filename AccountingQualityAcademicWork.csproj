@@ -66,6 +66,9 @@
     <Compile Include="Windows\AddingStudentWindow.xaml.cs">
       <DependentUpon>AddingStudentWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AddingTeacherWindow.xaml.cs">
+      <DependentUpon>AddingTeacherWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\FillingReportCardWindow.xaml.cs">
       <DependentUpon>FillingReportCardWindow.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AddingStudentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddingTeacherWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

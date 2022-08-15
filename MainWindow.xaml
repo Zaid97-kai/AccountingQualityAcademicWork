@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AccountingQualityAcademicWork"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="300">
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
