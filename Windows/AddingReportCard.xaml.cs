@@ -21,15 +21,37 @@ namespace AccountingQualityAcademicWork.Windows
     public partial class AddingReportCard : Window
     {
         private MainWindow _mainWindow;
-        public AddingReportCard(MainWindow mainWindow)
+        private Models.Users _users;
+        public AddingReportCard(MainWindow mainWindow, Models.Users users = null)
         {
             InitializeComponent();
-            GridAddingForm.Visibility = Visibility.Hidden;
-            _mainWindow = mainWindow;
-            DgReportCards.ItemsSource = Models.JournalDBEntities.GetContext().ReportCard.ToList();
             CbGroup.ItemsSource = Models.JournalDBEntities.GetContext().Group.ToList();
             CbSpecialization.ItemsSource = Models.JournalDBEntities.GetContext().Specialization.ToList();
             CbTeacher.ItemsSource = Models.JournalDBEntities.GetContext().Users.ToList();
+            GridAddingForm.Visibility = Visibility.Hidden;
+            this._mainWindow = mainWindow;
+            this._users = users;
+            UpdateReportCardsTable();
+        }
+
+        private void UpdateReportCardsTable()
+        {
+            if (!_users.IsAdmin)
+            {
+                DgReportCards.ItemsSource = Models.JournalDBEntities.GetContext().ReportCard.ToList().Where(r => r.Users.Id == _users.Id).ToList();
+                for (int i = 0; i < Models.JournalDBEntities.GetContext().Users.ToList().Count; i++)
+                {
+                    if (Models.JournalDBEntities.GetContext().Users.ToList()[i].Id == _users.Id)
+                    {
+                        CbTeacher.SelectedIndex = i;
+                    }
+                }
+                CbTeacher.IsEnabled = false;
+            }
+            else
+            {
+                DgReportCards.ItemsSource = Models.JournalDBEntities.GetContext().ReportCard.ToList();
+            }
         }
 
         private void BnAddingReportCard_Click(object sender, RoutedEventArgs e)
@@ -76,7 +98,7 @@ namespace AccountingQualityAcademicWork.Windows
                 finally
                 {
                     MessageBox.Show("Табель успешно добавлена");
-                    DgReportCards.ItemsSource = Models.JournalDBEntities.GetContext().ReportCard.ToList();
+                    UpdateReportCardsTable();
                 }
             }
         }

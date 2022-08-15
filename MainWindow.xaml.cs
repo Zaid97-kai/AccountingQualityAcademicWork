@@ -23,6 +23,7 @@ namespace AccountingQualityAcademicWork
         public MainWindow()
         {
             InitializeComponent();
+            MainGrid.Visibility = Visibility.Hidden;
         }
 
         private void BnEnter_Click(object sender, RoutedEventArgs e)
@@ -37,6 +38,27 @@ namespace AccountingQualityAcademicWork
             Windows.AddingReportCard addingReportCard = new Windows.AddingReportCard(this);
             addingReportCard.Show();
             this.Hide();
+        }
+
+        private void BnAuth_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Models.Users item in Models.JournalDBEntities.GetContext().Users.ToList())
+            {
+                if (item.Log == TbLog.Text && item.Password == TbPassword.Text && item.IsAdmin == true)
+                {
+                    AuthGrid.Visibility = Visibility.Hidden;
+                    MainGrid.Visibility = Visibility.Visible;
+                    return;
+                }
+                else if (item.Log == TbLog.Text && item.Password == TbPassword.Text && item.IsAdmin == false)
+                {
+                    Windows.AddingReportCard addingReportCard = new Windows.AddingReportCard(this, item);
+                    addingReportCard.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+            MessageBox.Show("Логин и пароль введены неверно");
         }
     }
 }

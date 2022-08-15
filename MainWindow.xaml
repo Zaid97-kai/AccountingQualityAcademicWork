@@ -6,12 +6,30 @@
         xmlns:local="clr-namespace:AccountingQualityAcademicWork"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="300">
-    <Grid x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Button x:Name="BnEnter" Click="BnEnter_Click" Grid.Row="0">Добавить студента</Button>
-        <Button x:Name="BnEnterMenu" Click="BnEnterMenu_Click" Grid.Row="1">Меню табелей</Button>
+    <Grid>
+        <Grid x:Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button x:Name="BnEnter" Click="BnEnter_Click" Grid.Row="0">Добавить студента</Button>
+            <Button x:Name="BnEnterMenu" Click="BnEnterMenu_Click" Grid.Row="1">Меню табелей</Button>
+        </Grid>
+        <Grid x:Name="AuthGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Логин</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Пароль</TextBlock>
+            <TextBox x:Name="TbLog" Grid.Row="0" Grid.Column="1"></TextBox>
+            <TextBox x:Name="TbPassword" Grid.Row="1" Grid.Column="1"></TextBox>
+            <Button x:Name="BnAuth" Click="BnAuth_Click" Grid.Row="2" Grid.ColumnSpan="2">Войти</Button>
+         </Grid>
     </Grid>
 </Window>
