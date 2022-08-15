@@ -83,7 +83,7 @@ namespace AccountingQualityAcademicWork.Windows
 
         private void BtnEditInfo_Click(object sender, RoutedEventArgs e)
         {
-            Windows.FillingReportCardWindow fillingReportCardWindow = new Windows.FillingReportCardWindow((sender as Button).DataContext as Models.ReportCard);
+            Windows.FillingReportCardWindow fillingReportCardWindow = new Windows.FillingReportCardWindow((sender as Button).DataContext as Models.ReportCard, this);
             fillingReportCardWindow.ShowDialog();
         }
     }

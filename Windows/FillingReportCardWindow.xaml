@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
         mc:Ignorable="d"
-        Title="FillingReportCardWindow" Height="450" Width="800">
+        Title="Заполнение ведомости" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -18,7 +18,7 @@
         </UniformGrid>
         <DataGrid x:Name="DgStatement" Grid.Row="1" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Фамилия, имя, отчество" Binding="{Binding Path=Student.FullName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия, имя, отчество" Binding="{Binding Path=Student.FullName}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Количество баллов"  Binding="{Binding Path=Scores}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Пропущенных лекций" Binding="{Binding Path=NumberMissedLectures}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Пропущенных пр.занятий" Binding="{Binding Path=NumberMissedPractical}"></DataGridTextColumn>
