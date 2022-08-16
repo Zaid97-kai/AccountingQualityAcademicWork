@@ -80,5 +80,12 @@ namespace AccountingQualityAcademicWork
             AuthGrid.Visibility = Visibility.Visible;
             MainGrid.Visibility = Visibility.Hidden;
         }
+
+        private void BnEnterExcel_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.AddingStudentFromExcelWindow addingStudentFromExcelWindow = new Windows.AddingStudentFromExcelWindow(this);
+            addingStudentFromExcelWindow.Show();
+            this.Hide();
+        }
     }
 }

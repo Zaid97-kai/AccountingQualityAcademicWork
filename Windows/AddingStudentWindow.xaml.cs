@@ -26,12 +26,26 @@ namespace AccountingQualityAcademicWork.Windows
             CbGroup.ItemsSource = Models.JournalDBEntities.GetContext().Group.ToList();
             this.mainWindow = mainWindow;
         }
-
+        /// <summary>
+        /// Добавление студента
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BnAddingStudent_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Models.JournalDBEntities.GetContext().Student.Add(new Models.Student() { Name = TbName.Text, Surname = TbSurname.Text, Patronymic = TbPatronymic.Text, Group = CbGroup.SelectedItem as Models.Group });
+                Models.Student student = new Models.Student() { Name = TbName.Text, Surname = TbSurname.Text, Patronymic = TbPatronymic.Text, Group = CbGroup.SelectedItem as Models.Group };
+                Models.JournalDBEntities.GetContext().Student.Add(student);
+                Models.JournalDBEntities.GetContext().SaveChanges();
+
+                foreach (var item in Models.JournalDBEntities.GetContext().ReportCard.ToList())
+                {
+                    if(item.Group.GroupNumber == (CbGroup.SelectedItem as Models.Group).GroupNumber)
+                    {
+                        Models.JournalDBEntities.GetContext().StudentInReportCard.Add(new Models.StudentInReportCard() { ReportCard = item, NumberMissedLabs = 0, NumberMissedLectures = 0, NumberMissedPractical = 0, Scores = 0, Student = student});
+                    }
+                }
                 Models.JournalDBEntities.GetContext().SaveChanges();
             }
             catch(Exception ex)

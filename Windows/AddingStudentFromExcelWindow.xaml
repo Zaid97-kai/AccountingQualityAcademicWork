@@ -1,0 +1,26 @@
+﻿<Window x:Class="AccountingQualityAcademicWork.Windows.AddingStudentFromExcelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
+        mc:Ignorable="d"
+        Title="AddingStudentFromExcelWindow" MinHeight="150" MinWidth="300" MaxHeight="200" MaxWidth="350">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">Файл</TextBlock>
+        <Button x:Name="BnOpenFile" Click="BnOpenFile_Click" Grid.Column="1" Grid.Row="0">Загрузить</Button>
+        <TextBlock Text="Номер группы" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        <ComboBox x:Name="CbGroup" DisplayMemberPath="GroupNumber" Grid.Row="1" Grid.Column="1"></ComboBox>
+        <Button x:Name="BnSave" Click="BnSave_Click" Grid.Column="0" Grid.Row="2">Сохранить</Button>
+        <Button x:Name="BnBack" Click="BnBack_Click" Grid.Column="1" Grid.Row="2">Назад</Button>
+    </Grid>
+</Window>
