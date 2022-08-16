@@ -36,14 +36,21 @@ namespace AccountingQualityAcademicWork.Windows
         /// <param name="e"></param>
         private void BnOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            _openFileDialog = new OpenFileDialog()
+            try
             {
-                DefaultExt = "*.xls;*.xlsx",
-                Filter = "файл Excel (Spisok.xlsx)|*.xlsx",
-                Title = "Выберите файл базы данных"
-            };
-            if (!(_openFileDialog.ShowDialog() == true))
-                return;
+                _openFileDialog = new OpenFileDialog()
+                {
+                    DefaultExt = "*.xls;*.xlsx",
+                    Filter = "файл Excel (Spisok.xlsx)|*.xlsx",
+                    Title = "Выберите файл базы данных"
+                };
+                if (!(_openFileDialog.ShowDialog() == true))
+                    return;
+            }
+            catch
+            {
+                BnOpenFile.Background = Brushes.Red;
+            }
         }
         /// <summary>
         /// Сохранение результатов импорта

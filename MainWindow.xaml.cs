@@ -87,5 +87,12 @@ namespace AccountingQualityAcademicWork
             addingStudentFromExcelWindow.Show();
             this.Hide();
         }
+
+        private void BnOpenStudentsList_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.StudentsWindow studentsWindow = new Windows.StudentsWindow(this);
+            studentsWindow.Show();
+            this.Hide();
+        }
     }
 }

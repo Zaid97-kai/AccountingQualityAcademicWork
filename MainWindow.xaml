@@ -13,11 +13,13 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="BnEnter" Click="BnEnter_Click" Grid.Row="0">Добавить студента</Button>
             <Button x:Name="BnEnterExcel" Click="BnEnterExcel_Click" Grid.Row="1">Добавить студентов из Excel</Button>
             <Button x:Name="BnEnterMenu" Click="BnEnterMenu_Click" Grid.Row="2">Меню табелей</Button>
-            <Button x:Name="BnExit" Click="BnExit_Click" Grid.Row="3">Выход</Button>
+            <Button x:Name="BnOpenStudentsList" Click="BnOpenStudentsList_Click" Grid.Row="3">Список студентов</Button>
+            <Button x:Name="BnExit" Click="BnExit_Click" Grid.Row="4">Выход</Button>
         </Grid>
         <Grid x:Name="AuthGrid">
             <Grid.RowDefinitions>

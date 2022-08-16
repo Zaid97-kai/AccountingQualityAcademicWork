@@ -1,0 +1,35 @@
+﻿<Window x:Class="AccountingQualityAcademicWork.Windows.StudentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
+        mc:Ignorable="d"
+        Title="Студенты" MinHeight="225" MinWidth="400" MaxHeight="450" MaxWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Row="0" Columns="3">
+            <TextBox x:Name="TbNameStudent" TextChanged="TbNameStudent_TextChanged"></TextBox>
+            <ComboBox x:Name="CbNumberGroup" DisplayMemberPath="GroupNumber" SelectionChanged="CbNumberGroup_SelectionChanged"></ComboBox>
+            <Button x:Name="BnBack" Click="BnBack_Click">Назад</Button>
+        </UniformGrid>
+        <Grid Grid.Row="1">
+            <DataGrid x:Name="DgStudents" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Фамилия, имя, отчество" Binding="{Binding Path=FullName}" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Номер группы"  Binding="{Binding Path=Group.GroupNumber}" IsReadOnly="True"></DataGridTextColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="BtnStudentInfo" Content="Успеваемость" Click="BtnStudentInfo_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>

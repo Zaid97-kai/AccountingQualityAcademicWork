@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Word = Microsoft.Office.Interop.Word;
 using System.Text.Json;
+using Microsoft.Win32;
 
 namespace AccountingQualityAcademicWork.Windows
 {
@@ -57,7 +58,7 @@ namespace AccountingQualityAcademicWork.Windows
                 ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
             };
 
-            using (FileStream fs = new FileStream(this.reportCard.Users.FullName + this.reportCard.NameDiscipline + ".json", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(this.reportCard.Users.FullName + this.reportCard.NameDiscipline + this.reportCard.Group.GroupNumber + ".json", FileMode.OpenOrCreate))
             {
                 await JsonSerializer.SerializeAsync<Models.ReportCard>(fs, this.reportCard, options);
             }
@@ -70,6 +71,10 @@ namespace AccountingQualityAcademicWork.Windows
         /// <param name="e"></param>
         private void BnSaveWord_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (!(saveFileDialog.ShowDialog() == true))
+                return;
+
             var app = new Word.Application();
             Word.Document document = app.Documents.Add();
 
@@ -127,6 +132,7 @@ namespace AccountingQualityAcademicWork.Windows
             Word.Paragraph tableParagraph = document.Paragraphs.Add();
             Word.Range tableRange = tableParagraph.Range;
             Word.Table studentsTable = document.Tables.Add(tableRange, this.studentInReportsCard.Count() + 1, 6);
+            studentsTable.Columns.AutoFit();
             studentsTable.Borders.InsideLineStyle =
                 studentsTable.Borders.OutsideLineStyle = Word.WdLineStyle.wdLineStyleSingle;
             studentsTable.Range.Cells.VerticalAlignment =
@@ -205,7 +211,7 @@ namespace AccountingQualityAcademicWork.Windows
 
             app.Visible = true;
 
-            document.SaveAs2(@"D:\outputFileWord.docx");
+            document.SaveAs2(saveFileDialog.FileName + ".docx");
             document.SaveAs2(@"D:\outputFilePdf.pdf", Word.WdExportFormat.wdExportFormatPDF);
         }
     }
