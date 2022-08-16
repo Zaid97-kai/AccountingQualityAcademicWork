@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -107,6 +110,37 @@ namespace AccountingQualityAcademicWork.Windows
         {
             Windows.FillingReportCardWindow fillingReportCardWindow = new Windows.FillingReportCardWindow((sender as Button).DataContext as Models.ReportCard, this);
             fillingReportCardWindow.ShowDialog();
+        }
+
+        private async void BnOpenReportCard_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog()
+            {
+                DefaultExt = "*.json",
+                Filter = "файл JSON (File.json)|*.json",
+                Title = "Выберите JSON файл"
+            };
+            if (!(ofd.ShowDialog() == true))
+                return;
+
+            using(FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
+            {
+                var options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+                };
+
+                Models.ReportCard reportCard = Models.JournalDBEntities.GetContext().ReportCard.Find((await JsonSerializer.DeserializeAsync<Models.ReportCard>(fs, options)).Id);
+                
+                Windows.FillingReportCardWindow fillingReportCardWindow = new Windows.FillingReportCardWindow(reportCard, this);
+                fillingReportCardWindow.Show();
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _mainWindow.Show();
+            this.Hide();
         }
     }
 }

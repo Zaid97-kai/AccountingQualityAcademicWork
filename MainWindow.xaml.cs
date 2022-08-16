@@ -20,6 +20,7 @@ namespace AccountingQualityAcademicWork
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Models.Users _users;
         public MainWindow()
         {
             InitializeComponent();
@@ -35,17 +36,22 @@ namespace AccountingQualityAcademicWork
 
         private void BnEnterMenu_Click(object sender, RoutedEventArgs e)
         {
-            Windows.AddingReportCard addingReportCard = new Windows.AddingReportCard(this);
+            Windows.AddingReportCard addingReportCard = new Windows.AddingReportCard(this, _users);
             addingReportCard.Show();
             this.Hide();
         }
-
+        /// <summary>
+        /// Авторизация пользователя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BnAuth_Click(object sender, RoutedEventArgs e)
         {
             foreach (Models.Users item in Models.JournalDBEntities.GetContext().Users.ToList())
             {
                 if (item.Log == TbLog.Text && item.Password == TbPassword.Text && item.IsAdmin == true)
                 {
+                    _users = item;
                     AuthGrid.Visibility = Visibility.Hidden;
                     MainGrid.Visibility = Visibility.Visible;
                     return;
@@ -53,12 +59,26 @@ namespace AccountingQualityAcademicWork
                 else if (item.Log == TbLog.Text && item.Password == TbPassword.Text && item.IsAdmin == false)
                 {
                     Windows.AddingReportCard addingReportCard = new Windows.AddingReportCard(this, item);
+                    TbLog.Text = "";
+                    TbPassword.Text = "";
                     addingReportCard.Show();
                     this.Hide();
                     return;
                 }
             }
             MessageBox.Show("Логин и пароль введены неверно");
+        }
+        /// <summary>
+        /// Выход из учетной записи администратора
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BnExit_Click(object sender, RoutedEventArgs e)
+        {
+            TbLog.Text = "";
+            TbPassword.Text = "";
+            AuthGrid.Visibility = Visibility.Visible;
+            MainGrid.Visibility = Visibility.Hidden;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Word = Microsoft.Office.Interop.Word;
+using System.Text.Json;
 
 namespace AccountingQualityAcademicWork.Windows
 {
@@ -41,10 +43,25 @@ namespace AccountingQualityAcademicWork.Windows
             addingReport.Show();
             this.Hide();
         }
-
-        private void BnSaveChanges_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Сохранение изменений в ведомости в базе данных и JSON-файле
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void BnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
             Models.JournalDBEntities.GetContext().SaveChanges();
+
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve
+            };
+
+            using (FileStream fs = new FileStream(this.reportCard.Users.FullName + this.reportCard.NameDiscipline + ".json", FileMode.OpenOrCreate))
+            {
+                await JsonSerializer.SerializeAsync<Models.ReportCard>(fs, this.reportCard, options);
+            }
+
         }
         /// <summary>
         /// Генерация WORD документа

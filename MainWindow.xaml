@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccountingQualityAcademicWork"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300">
+        Title="Главное окно" MaxHeight="300" MaxWidth="300" MinHeight="200" MinWidth="200">
     <Grid>
         <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="BnEnter" Click="BnEnter_Click" Grid.Row="0">Добавить студента</Button>
             <Button x:Name="BnEnterMenu" Click="BnEnterMenu_Click" Grid.Row="1">Меню табелей</Button>
+            <Button x:Name="BnExit" Click="BnExit_Click" Grid.Row="2">Выход</Button>
         </Grid>
         <Grid x:Name="AuthGrid">
             <Grid.RowDefinitions>
@@ -27,8 +29,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Логин</TextBlock>
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Пароль</TextBlock>
-            <TextBox x:Name="TbLog" Grid.Row="0" Grid.Column="1"></TextBox>
-            <TextBox x:Name="TbPassword" Grid.Row="1" Grid.Column="1"></TextBox>
+            <TextBox x:Name="TbLog" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80"></TextBox>
+            <TextBox x:Name="TbPassword" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80"></TextBox>
             <Button x:Name="BnAuth" Click="BnAuth_Click" Grid.Row="2" Grid.ColumnSpan="2">Войти</Button>
          </Grid>
     </Grid>
