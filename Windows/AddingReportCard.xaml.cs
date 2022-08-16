@@ -247,5 +247,11 @@ namespace AccountingQualityAcademicWork.Windows
                 }
             }
         }
+
+        private void BnBack_Click(object sender, RoutedEventArgs e)
+        {
+            GridAddingForm.Visibility = Visibility.Hidden;
+            DgReportCards.Visibility = Visibility.Visible;
+        }
     }
 }

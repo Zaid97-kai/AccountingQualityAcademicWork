@@ -26,10 +26,10 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Text="Фамилия" Grid.Row="0" Grid.Column="0"></TextBlock>
-        <TextBlock Text="Имя" Grid.Row="1" Grid.Column="0"></TextBlock>
-        <TextBlock Text="Отчество" Grid.Row="2" Grid.Column="0"></TextBlock>
-        <TextBlock Text="Номер группы" Grid.Row="3" Grid.Column="0"></TextBlock>
+        <TextBlock Text="Фамилия" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        <TextBlock Text="Имя" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        <TextBlock Text="Отчество" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        <TextBlock Text="Номер группы" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         <TextBox x:Name="TbSurname" Grid.Row="0" Grid.Column="1"></TextBox>
         <TextBox x:Name="TbName" Grid.Row="1" Grid.Column="1"></TextBox>
         <TextBox x:Name="TbPatronymic" Grid.Row="2" Grid.Column="1"></TextBox>

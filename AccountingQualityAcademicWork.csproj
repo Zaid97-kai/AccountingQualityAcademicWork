@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -177,6 +178,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>JournalModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Backups\TestBackup" />
     <None Include="Models\JournalModel.edmx.diagram">
       <DependentUpon>JournalModel.edmx</DependentUpon>
     </None>
@@ -200,6 +202,18 @@
       <DependentUpon>JournalModel.edmx</DependentUpon>
       <LastGenOutput>JournalModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Back.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\excel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Create.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Open.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EntityFramework">

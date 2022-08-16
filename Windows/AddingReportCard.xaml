@@ -10,10 +10,28 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="14*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="DgReportCards" Grid.Row="0" AutoGenerateColumns="False">
+        <ToolBar Grid.Row="0">
+            <ToggleButton x:Name="BnAddingReportCard" Click="BnAddingReportCard_Click">
+                <Image Source="/Resources/create.png" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" ToolTip="Добавить ведомость"/>
+            </ToggleButton>
+            <Separator />
+            <Button x:Name="BnOpenReportCard" Click="BnOpenReportCard_Click">
+                <Image Source="/Resources/open.png" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill" ToolTip="Открыть ведомость"/>
+            </Button>
+            <Separator />
+            <Button x:Name="BnOpenExcelReportCard" Click="BnOpenExcelReportCard_Click">
+                <Image Source="/Resources/excel.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill" ToolTip="Открыть ведомость (Excel)"/>
+            </Button>
+            <Separator />
+            <Button x:Name="BnBack" Click="BnBack_Click">
+                <Image Source="/Resources/back.png" Stretch="Fill" ToolTip="Открыть список ведомостей"></Image>
+            </Button>
+        </ToolBar>
+        <!--Форма вывода ведомостей-->
+        <DataGrid x:Name="DgReportCards" Grid.Row="1" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дисциплина" Binding="{Binding Path=NameDiscipline}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Дата заполнения" Binding="{Binding Path=DateFilling}"></DataGridTextColumn>
@@ -37,7 +55,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <!--Форма добавления ведомости-->
-        <Grid x:Name="GridAddingForm" Grid.Row="0">
+        <Grid x:Name="GridAddingForm" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
@@ -51,30 +69,20 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0">Наименование дисциплины</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">Наименование дисциплины</TextBlock>
             <TextBox x:Name="TbName" Grid.Column="1" Grid.Row="0"></TextBox>
-            <TextBlock Grid.Column="0" Grid.Row="1">Специальность</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">Специальность</TextBlock>
             <ComboBox x:Name="CbSpecialization" Grid.Column="1" Grid.Row="1" DisplayMemberPath="Code"></ComboBox>
-            <TextBlock Grid.Column="0" Grid.Row="2">Группа</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">Группа</TextBlock>
             <ComboBox x:Name="CbGroup" Grid.Column="1" Grid.Row="2" DisplayMemberPath="GroupNumber"></ComboBox>
-            <TextBlock Grid.Column="0" Grid.Row="3">Преподаватель</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">Преподаватель</TextBlock>
             <ComboBox x:Name="CbTeacher" Grid.Column="1" Grid.Row="3" DisplayMemberPath="FullName"></ComboBox>
-            <TextBlock Grid.Column="0" Grid.Row="4">Количество лекционных занятий</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center">Количество лекционных занятий</TextBlock>
             <TextBox x:Name="TbLectionCount" Grid.Column="1" Grid.Row="4"></TextBox>
-            <TextBlock Grid.Column="0" Grid.Row="5">Количество практических занятий</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center">Количество практических занятий</TextBlock>
             <TextBox x:Name="TbPracticalCount" Grid.Column="1" Grid.Row="5"></TextBox>
-            <TextBlock Grid.Column="0" Grid.Row="6">Количество лабораторных занятий</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center">Количество лабораторных занятий</TextBlock>
             <TextBox x:Name="TbLabsCount" Grid.Column="1" Grid.Row="6"></TextBox>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Button x:Name="BnAddingReportCard" Click="BnAddingReportCard_Click" Grid.Row="0">Добавить ведомость</Button>
-            <Button x:Name="BnOpenReportCard" Click="BnOpenReportCard_Click" Grid.Row="1">Открыть ведомость</Button>
-            <Button x:Name="BnOpenExcelReportCard" Click="BnOpenExcelReportCard_Click" Grid.Row="3">Открыть ведомость (Excel)</Button>
         </Grid>
     </Grid>
 </Window>
