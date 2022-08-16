@@ -24,6 +24,8 @@ namespace AccountingQualityAcademicWork
         public MainWindow()
         {
             InitializeComponent();
+            TbLog.Text = "user01";
+            TbPassword.Text = "user01";
             MainGrid.Visibility = Visibility.Hidden;
         }
 

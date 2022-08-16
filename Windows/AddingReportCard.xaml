@@ -10,8 +10,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <DataGrid x:Name="DgReportCards" Grid.Row="0" AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -24,6 +24,13 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button x:Name="BtnEditInfo" Content="Редактировать" Click="BtnEditInfo_Click"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>                
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="BtnDelete" Content="Удалить" Click="BtnDelete_Click"></Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -67,7 +74,7 @@
             </Grid.RowDefinitions>
             <Button x:Name="BnAddingReportCard" Click="BnAddingReportCard_Click" Grid.Row="0">Добавить ведомость</Button>
             <Button x:Name="BnOpenReportCard" Click="BnOpenReportCard_Click" Grid.Row="1">Открыть ведомость</Button>
-            <Button Grid.Row="2">Удалить ведомость</Button>
+            <Button x:Name="BnOpenExcelReportCard" Click="BnOpenExcelReportCard_Click" Grid.Row="3">Открыть ведомость (Excel)</Button>
         </Grid>
     </Grid>
 </Window>

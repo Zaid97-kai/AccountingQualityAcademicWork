@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace AccountingQualityAcademicWork.Windows
 {
@@ -25,6 +26,9 @@ namespace AccountingQualityAcademicWork.Windows
     {
         private MainWindow _mainWindow;
         private Models.Users _users;
+        private OpenFileDialog _openFileDialog;
+        private Models.ReportCard _reportCard;
+        private int flag;
         public AddingReportCard(MainWindow mainWindow, Models.Users users = null)
         {
             InitializeComponent();
@@ -68,29 +72,14 @@ namespace AccountingQualityAcademicWork.Windows
             {
                 try
                 {
-                    Models.ReportCard reportCard = new Models.ReportCard()
+                    if (TbLabsCount.Text != "" && TbLectionCount.Text != "" && TbName.Text != "" && TbPracticalCount.Text != "" && CbGroup.SelectedItem != null && CbSpecialization.SelectedItem != null && CbTeacher.SelectedItem != null)
                     {
-                        Users = CbTeacher.SelectedItem as Models.Users,
-                        DateFilling = DateTime.Now,
-                        Group = CbGroup.SelectedItem as Models.Group,
-                        NameDiscipline = TbName.Text,
-                        NumberLabs = Convert.ToInt32(TbLabsCount.Text),
-                        NumberLectures = Convert.ToInt32(TbLectionCount.Text),
-                        NumberPractical = Convert.ToInt32(TbPracticalCount.Text),
-                        Specialization = CbSpecialization.SelectedItem as Models.Specialization
-                    };
-                    Models.JournalDBEntities.GetContext().ReportCard.Add(reportCard);
-                    Models.JournalDBEntities.GetContext().SaveChanges();
-
-                    foreach (var item in Models.JournalDBEntities.GetContext().Student.ToList())
-                    {
-                        if(item.Group == CbGroup.SelectedItem as Models.Group)
-                        {
-                            Models.JournalDBEntities.GetContext().StudentInReportCard.Add(new Models.StudentInReportCard() { Student = item, Scores = 0, ReportCard = reportCard });
-                        }
+                        AddingNewReportCard();
                     }
-                    Models.JournalDBEntities.GetContext().SaveChanges();
-
+                    else
+                    {
+                        MessageBox.Show("Не все поля заполнены");
+                    }
                     GridAddingForm.Visibility = Visibility.Hidden;
                     DgReportCards.Visibility = Visibility.Visible;
                 }
@@ -104,6 +93,34 @@ namespace AccountingQualityAcademicWork.Windows
                     UpdateReportCardsTable();
                 }
             }
+        }
+        /// <summary>
+        /// Добавление новой ведомости
+        /// </summary>
+        private void AddingNewReportCard()
+        {
+            _reportCard = new Models.ReportCard()
+            {
+                Users = CbTeacher.SelectedItem as Models.Users,
+                DateFilling = DateTime.Now,
+                Group = CbGroup.SelectedItem as Models.Group,
+                NameDiscipline = TbName.Text,
+                NumberLabs = Convert.ToInt32(TbLabsCount.Text),
+                NumberLectures = Convert.ToInt32(TbLectionCount.Text),
+                NumberPractical = Convert.ToInt32(TbPracticalCount.Text),
+                Specialization = CbSpecialization.SelectedItem as Models.Specialization
+            };
+            Models.JournalDBEntities.GetContext().ReportCard.Add(_reportCard);
+            Models.JournalDBEntities.GetContext().SaveChanges();
+
+            foreach (var item in Models.JournalDBEntities.GetContext().Student.ToList())
+            {
+                if (item.Group == CbGroup.SelectedItem as Models.Group)
+                {
+                    Models.JournalDBEntities.GetContext().StudentInReportCard.Add(new Models.StudentInReportCard() { Student = item, Scores = 0, ReportCard = _reportCard });
+                }
+            }
+            Models.JournalDBEntities.GetContext().SaveChanges();
         }
 
         private void BtnEditInfo_Click(object sender, RoutedEventArgs e)
@@ -123,7 +140,7 @@ namespace AccountingQualityAcademicWork.Windows
             if (!(ofd.ShowDialog() == true))
                 return;
 
-            using(FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
+            using (FileStream fs = new FileStream(ofd.FileName, FileMode.Open))
             {
                 var options = new JsonSerializerOptions
                 {
@@ -131,7 +148,7 @@ namespace AccountingQualityAcademicWork.Windows
                 };
 
                 Models.ReportCard reportCard = Models.JournalDBEntities.GetContext().ReportCard.Find((await JsonSerializer.DeserializeAsync<Models.ReportCard>(fs, options)).Id);
-                
+
                 Windows.FillingReportCardWindow fillingReportCardWindow = new Windows.FillingReportCardWindow(reportCard, this);
                 fillingReportCardWindow.Show();
             }
@@ -141,6 +158,94 @@ namespace AccountingQualityAcademicWork.Windows
         {
             _mainWindow.Show();
             this.Hide();
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in Models.JournalDBEntities.GetContext().StudentInReportCard)
+            {
+                if (item.ReportCard == (sender as Button).DataContext as Models.ReportCard)
+                {
+                    Models.JournalDBEntities.GetContext().StudentInReportCard.Remove(item);
+                }
+            }
+            Models.JournalDBEntities.GetContext().ReportCard.Remove((sender as Button).DataContext as Models.ReportCard);
+            Models.JournalDBEntities.GetContext().SaveChanges();
+            DgReportCards.ItemsSource = Models.JournalDBEntities.GetContext().ReportCard.ToList();
+        }
+
+        private void BnDeleteReportCard_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BnOpenExcelReportCard_Click(object sender, RoutedEventArgs e)
+        {
+            if (flag == 0)
+            {
+                GridAddingForm.Visibility = Visibility.Visible;
+                DgReportCards.Visibility = Visibility.Hidden;
+                flag++;
+                return;
+            }
+            if (flag == 1)
+            {
+                try
+                {
+                    _openFileDialog = new OpenFileDialog()
+                    {
+                        DefaultExt = "*.xls;*.xlsx",
+                        Filter = "файл Excel (Spisok.xlsx)|*.xlsx",
+                        Title = "Выберите файл базы данных"
+                    };
+                    if (!(_openFileDialog.ShowDialog() == true))
+                        return;
+                }
+                catch
+                {
+                    BnOpenExcelReportCard.Background = Brushes.Red;
+                }
+
+                try
+                {
+                    string[,] list;
+                    Excel.Application ObjWorkExcel = new Excel.Application();
+                    Excel.Workbook ObjWorkBook = ObjWorkExcel.Workbooks.Open(_openFileDialog.FileName);
+                    Excel.Worksheet ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets[1];
+                    var lastCell = ObjWorkSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell);
+
+                    int _columns = (int)lastCell.Column;
+                    int _rows = (int)lastCell.Row;
+
+                    list = new string[_rows, _columns];
+
+                    for (int j = 0; j < _columns; j++)
+                        for (int i = 0; i < _rows; i++)
+                            list[i, j] = ObjWorkSheet.Cells[i + 1, j + 1].Text;
+                    ObjWorkBook.Close(false, Type.Missing, Type.Missing);
+                    ObjWorkExcel.Quit();
+                    GC.Collect();
+
+                    AddingNewReportCard();
+
+                    for (int i = 1; i < _rows; i++)
+                    {
+                        Models.JournalDBEntities.GetContext().StudentInReportCard.Add(new Models.StudentInReportCard() { ReportCard = _reportCard, NumberMissedLabs = Convert.ToInt32(list[i, 5]), NumberMissedLectures = Convert.ToInt32(list[i, 3]), NumberMissedPractical = Convert.ToInt32(list[i, 4]), Scores = Convert.ToInt32(list[i, 2]), Student = Models.JournalDBEntities.GetContext().Student.AsEnumerable().Where(s => (s.Surname + " " + s.Name + " " + s.Patronymic) == list[i, 1]).FirstOrDefault() });
+                    }
+                    Models.JournalDBEntities.GetContext().SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    GridAddingForm.Visibility = Visibility.Hidden;
+                    DgReportCards.Visibility = Visibility.Visible;
+                    flag--;
+                    this._mainWindow.Show();
+                    this.Hide();
+                }
+            }
         }
     }
 }

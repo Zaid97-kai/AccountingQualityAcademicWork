@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
         mc:Ignorable="d"
-        Title="AddingStudentFromExcelWindow" MinHeight="150" MinWidth="300" MaxHeight="200" MaxWidth="350">
+        Title="Добавление студента" MinHeight="150" MinWidth="300" MaxHeight="200" MaxWidth="350">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
