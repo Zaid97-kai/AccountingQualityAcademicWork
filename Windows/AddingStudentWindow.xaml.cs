@@ -35,20 +35,28 @@ namespace AccountingQualityAcademicWork.Windows
         {
             try
             {
-                Models.Student student = new Models.Student() { Name = TbName.Text, Surname = TbSurname.Text, Patronymic = TbPatronymic.Text, Group = CbGroup.SelectedItem as Models.Group };
-                Models.JournalDBEntities.GetContext().Student.Add(student);
-                Models.JournalDBEntities.GetContext().SaveChanges();
-
-                foreach (var item in Models.JournalDBEntities.GetContext().ReportCard.ToList())
+                if (Models.JournalDBEntities.GetContext().Student.ToList().Where(s => (s.Surname == TbSurname.Text) && (s.Name == TbName.Text) && (s.Patronymic == TbPatronymic.Text) && s.Group == CbGroup.SelectedItem as Models.Group).Count() == 0)
                 {
-                    if(item.Group.GroupNumber == (CbGroup.SelectedItem as Models.Group).GroupNumber)
+                    Models.Student student = new Models.Student() { Name = TbName.Text, Surname = TbSurname.Text, Patronymic = TbPatronymic.Text, Group = CbGroup.SelectedItem as Models.Group };
+                    Models.JournalDBEntities.GetContext().Student.Add(student);
+                    Models.JournalDBEntities.GetContext().SaveChanges();
+
+                    foreach (var item in Models.JournalDBEntities.GetContext().ReportCard.ToList())
                     {
-                        Models.JournalDBEntities.GetContext().StudentInReportCard.Add(new Models.StudentInReportCard() { ReportCard = item, NumberMissedLabs = 0, NumberMissedLectures = 0, NumberMissedPractical = 0, Scores = 0, Student = student});
+                        if (item.Group.GroupNumber == (CbGroup.SelectedItem as Models.Group).GroupNumber)
+                        {
+                            Models.JournalDBEntities.GetContext().StudentInReportCard.Add(new Models.StudentInReportCard() { ReportCard = item, NumberMissedLabs = 0, NumberMissedLectures = 0, NumberMissedPractical = 0, Scores = 0, Student = student });
+                        }
                     }
+                    Models.JournalDBEntities.GetContext().SaveChanges();
                 }
-                Models.JournalDBEntities.GetContext().SaveChanges();
+                else
+                {
+                    MessageBox.Show("Такой студент уже существует в базе данных");
+                    return;
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -58,6 +66,8 @@ namespace AccountingQualityAcademicWork.Windows
                 this.Hide();
                 MessageBox.Show("Студент добавлен");
             }
+        
+
         }
     }
 }

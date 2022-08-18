@@ -6,14 +6,6 @@
         xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
         mc:Ignorable="d"
         Title="Добавление студента" Height="200" Width="400">
-    <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="TextBlock.Background" Value="White" />
-            <Setter Property="TextBlock.Foreground" Value="Black" />
-            <Setter Property="TextBlock.FontFamily" Value="Arial" />
-            <Setter Property="TextBlock.FontSize" Value="14" />
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

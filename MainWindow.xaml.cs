@@ -96,5 +96,12 @@ namespace AccountingQualityAcademicWork
             studentsWindow.Show();
             this.Hide();
         }
+
+        private void BnOpenAddingGroupWindow_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.AddingGroupWindow addingGroupWindow = new Windows.AddingGroupWindow(this);
+            addingGroupWindow.Show();
+            this.Hide();
+        }
     }
 }
