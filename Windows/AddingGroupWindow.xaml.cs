@@ -24,6 +24,7 @@ namespace AccountingQualityAcademicWork.Windows
         {
             InitializeComponent();
             _mainWindow = mainWindow;
+            CbCodeSpecialization.ItemsSource = Models.JournalDBEntities.GetContext().Specialization.ToList();
         }
 
         private void BnAddingGroup_Click(object sender, RoutedEventArgs e)
