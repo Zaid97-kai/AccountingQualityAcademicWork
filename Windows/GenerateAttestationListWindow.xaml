@@ -15,8 +15,9 @@
             <ComboBox x:Name="CbGroups" DisplayMemberPath="GroupNumber" SelectionChanged="CbGroups_SelectionChanged"></ComboBox>
             <Button x:Name="BnGenerate" Click="BnGenerate_Click">Создать Excel файл</Button>
         </UniformGrid>
-        <DataGrid Grid.Row="1" x:Name="DgAttestationList">
+        <DataGrid Grid.Row="1" x:Name="DgAttestationList" AutoGenerateColumns="False">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия, имя, отчество" Binding="{Binding Path=FullName}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

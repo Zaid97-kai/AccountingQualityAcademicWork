@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountingQualityAcademicWork.PartialClasses;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,6 @@ using System.Windows.Shapes;
 
 namespace AccountingQualityAcademicWork.Windows
 {
-    public struct AttestationListItem
-    {
-        public string Name;
-        public string Discipline;
-        public int Score;
-    }
     /// <summary>
     /// Логика взаимодействия для GenerateAttestationListWindow.xaml
     /// </summary>
@@ -28,10 +23,13 @@ namespace AccountingQualityAcademicWork.Windows
     {
         private MainWindow _mainWindow;
         private Models.Group _group;
+        private List<Models.Student> _students;
+        private List<Models.StudentInReportCard> _studentInReportCards;
         public GenerateAttestationListWindow(MainWindow mainWindow)
         {
             InitializeComponent();
             _mainWindow = mainWindow;
+            _studentInReportCards = new List<Models.StudentInReportCard>();
             CbGroups.ItemsSource = Models.JournalDBEntities.GetContext().Group.ToList().OrderBy(g => g.GroupNumber);
         }
 
@@ -48,50 +46,76 @@ namespace AccountingQualityAcademicWork.Windows
 
         private void CbGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DgAttestationList.Columns.Add(new DataGridTextColumn()
-            {
-                Header = "Ф.И.О",
-                Binding = new Binding("FullName")
-            });
-
-            List<AttestationListItem> arrayList = new List<AttestationListItem>();
             this._group = CbGroups.SelectedItem as Models.Group;
-            var students = Models.JournalDBEntities.GetContext().Student.ToList().Where(s => s.Group == this._group).ToList();
-            for(int i = 0; i < Models.JournalDBEntities.GetContext().StudentInReportCard.ToList().Count; i++)
+            _students = Models.JournalDBEntities.GetContext().Student.Where(s => s.Group.Id == _group.Id).ToList();
+
+            foreach (var inReportCard in Models.JournalDBEntities.GetContext().StudentInReportCard)
             {
-                if (Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].Student.Group == this._group)
+                foreach (var student in _students)
                 {
-                    AttestationListItem temp = new AttestationListItem()
+                    if (inReportCard.Student.Id == student.Id)
                     {
-                        Name = Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].Student.FullName,
-                        Discipline = Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].ReportCard.NameDiscipline,
-                        Score = Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].Scores
-                    };
-                    arrayList.Add(temp);
+                        _studentInReportCards.Add(inReportCard);
+                    }
                 }
             }
 
-            var groupList = arrayList.GroupBy(g => g.Name);
-            var groupListByDiscipline = arrayList.GroupBy(g => g.Discipline);
-
-            IEnumerable<AttestationListItem> smths = groupList.SelectMany(group => group);
-            List<AttestationListItem> newList = smths.ToList();
-
-            for (int i = 0; i < groupListByDiscipline.Count(); i++)
+            var elements = (from r in _studentInReportCards
+                           select new 
+                           { 
+                               FullName = r.Student.FullName, 
+                               Discipline = r.ReportCard.NameDiscipline, 
+                               Score = r.Scores 
+                           }).ToList().GroupBy(el => el.Discipline).ToList();
+            var groupListByDiscipline = elements.SelectMany(group => group).GroupBy(s => s.Discipline);
+            
+            foreach (var group in elements.SelectMany(group => group).GroupBy(s => s.FullName))
             {
-                DgAttestationList.Columns.Add(new DataGridTextColumn()
-                {
-                    Header = groupListByDiscipline.ToList()[i].Key,
-                    Binding = new Binding("Discipline" + i)
-                });
+                var temp = new { FullName = group.Key };
+
             }
 
-            foreach (var g in groupList)
-            {
-                List<AttestationListItem> attestationListItems = newList.Where(a => a.Name == g.Key).ToList();
-                
-                DgAttestationList.Items.Add(new { FullName = g.Key, Discipline0 = attestationListItems[0].Score, Discipline1 = attestationListItems[1].Score });
-            }
+
+
+            DgAttestationList.ItemsSource = elements;
+            
+
+            //DgAttestationList.Columns.Add(new DataGridTextColumn()
+            //{
+            //    Header = "Ф.И.О",
+            //    Binding = new Binding("FullName")
+            //});
+
+            //List<AttestationListItem> arrayList = new List<AttestationListItem>();
+            //var students = Models.JournalDBEntities.GetContext().Student.ToList().Where(s => s.Group == this._group).ToList();
+            //for(int i = 0; i < Models.JournalDBEntities.GetContext().StudentInReportCard.ToList().Count; i++)
+            //{
+            //    if (Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].Student.Group == this._group)
+            //    {
+            //        AttestationListItem temp = new AttestationListItem()
+            //        {
+            //            Name = Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].Student.FullName,
+            //            Discipline = Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].ReportCard.NameDiscipline,
+            //            Score = Models.JournalDBEntities.GetContext().StudentInReportCard.ToList()[i].Scores
+            //        };
+            //        arrayList.Add(temp);
+            //    }
+            //}
+
+            //var groupList = arrayList.GroupBy(g => g.Name);
+            //var groupListByDiscipline = arrayList.GroupBy(g => g.Discipline);
+
+            //IEnumerable<AttestationListItem> smths = groupList.SelectMany(group => group);
+            //List<AttestationListItem> newList = smths.ToList();
+
+            //for (int i = 0; i < groupListByDiscipline.Count(); i++)
+            //{
+            //    DgAttestationList.Columns.Add(new DataGridTextColumn()
+            //    {
+            //        Header = groupListByDiscipline.ToList()[i].Key,
+            //        Binding = new Binding("Discipline" + i)
+            //    });
+            //}
         }
     }
 }   

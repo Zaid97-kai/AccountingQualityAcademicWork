@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="PartialClasses\JournalDBEntities.cs" />
+    <Compile Include="PartialClasses\ObjectExtensions.cs" />
     <Compile Include="PartialClasses\Student.cs" />
     <Compile Include="PartialClasses\Users.cs" />
     <Compile Include="Windows\AddingGroupWindow.xaml.cs">
