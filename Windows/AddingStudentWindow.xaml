@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
         mc:Ignorable="d"
-        Title="Добавление студента" Height="200" Width="400">
+        Title="Добавление студента" Height="200" Width="400" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -22,10 +22,10 @@
         <TextBlock Text="Имя" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         <TextBlock Text="Отчество" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         <TextBlock Text="Номер группы" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-        <TextBox x:Name="TbSurname" Grid.Row="0" Grid.Column="1"></TextBox>
-        <TextBox x:Name="TbName" Grid.Row="1" Grid.Column="1"></TextBox>
-        <TextBox x:Name="TbPatronymic" Grid.Row="2" Grid.Column="1"></TextBox>
-        <ComboBox x:Name="CbGroup" DisplayMemberPath="GroupNumber" Grid.Row="3" Grid.Column="1"></ComboBox>
+        <TextBox x:Name="TbSurname" Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox x:Name="TbName" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+        <TextBox x:Name="TbPatronymic" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+        <ComboBox x:Name="CbGroup" DisplayMemberPath="GroupNumber" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center"></ComboBox>
         <Button x:Name="BnAddingStudent" Click="BnAddingStudent_Click" Grid.Row="4" Grid.ColumnSpan="2" Content="Добавить"></Button>
     </Grid>
 </Window>

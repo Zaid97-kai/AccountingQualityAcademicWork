@@ -1,0 +1,23 @@
+﻿<Window x:Class="AccountingQualityAcademicWork.Windows.GenerateAttestationListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
+        mc:Ignorable="d"
+        Title="Успеваемость группы" Height="450" Width="800" Closed="Window_Closed">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="11*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <UniformGrid Grid.Row="0" Columns="2">
+            <ComboBox x:Name="CbGroups" DisplayMemberPath="GroupNumber" SelectionChanged="CbGroups_SelectionChanged"></ComboBox>
+            <Button x:Name="BnGenerate" Click="BnGenerate_Click">Создать Excel файл</Button>
+        </UniformGrid>
+        <DataGrid Grid.Row="1" x:Name="DgAttestationList">
+            <DataGrid.Columns>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

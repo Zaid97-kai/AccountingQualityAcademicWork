@@ -79,6 +79,9 @@
     <Compile Include="Windows\FillingReportCardWindow.xaml.cs">
       <DependentUpon>FillingReportCardWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\GenerateAttestationListWindow.xaml.cs">
+      <DependentUpon>GenerateAttestationListWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\StudentsWindow.xaml.cs">
       <DependentUpon>StudentsWindow.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\FillingReportCardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\GenerateAttestationListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

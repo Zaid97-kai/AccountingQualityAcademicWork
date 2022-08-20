@@ -103,5 +103,12 @@ namespace AccountingQualityAcademicWork
             addingGroupWindow.Show();
             this.Hide();
         }
+
+        private void BnGenerateAttestationListWindow_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.GenerateAttestationListWindow generateAttestationListWindow = new Windows.GenerateAttestationListWindow(this);
+            generateAttestationListWindow.Show();
+            this.Hide();
+        }
     }
 }

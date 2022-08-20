@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccountingQualityAcademicWork.Windows"
         mc:Ignorable="d"
-        Title="Добавление студента" MinHeight="150" MinWidth="300" MaxHeight="200" MaxWidth="350">
+        Title="Добавление студента" MinHeight="150" MinWidth="300" MaxHeight="200" MaxWidth="350" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

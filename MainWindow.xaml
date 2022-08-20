@@ -15,13 +15,15 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="BnEnter" Click="BnEnter_Click" Grid.Row="0">Добавить студента</Button>
             <Button x:Name="BnEnterExcel" Click="BnEnterExcel_Click" Grid.Row="1">Добавить студентов из Excel</Button>
             <Button x:Name="BnEnterMenu" Click="BnEnterMenu_Click" Grid.Row="2">Меню табелей</Button>
             <Button x:Name="BnOpenStudentsList" Click="BnOpenStudentsList_Click" Grid.Row="3">Список студентов</Button>
             <Button x:Name="BnOpenAddingGroupWindow" Click="BnOpenAddingGroupWindow_Click" Grid.Row="4">Добавить группу</Button>
-            <Button x:Name="BnExit" Click="BnExit_Click" Grid.Row="5">Выход</Button>
+            <Button x:Name="BnGenerateAttestationListWindow" Click="BnGenerateAttestationListWindow_Click" Grid.Row="5">Таблица успеваемости группы</Button>
+            <Button x:Name="BnExit" Click="BnExit_Click" Grid.Row="6">Выход</Button>
         </Grid>
         <Grid x:Name="AuthGrid">
             <Grid.RowDefinitions>
@@ -33,10 +35,10 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Логин</TextBlock>
-            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">Пароль</TextBlock>
-            <TextBox x:Name="TbLog" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80"></TextBox>
-            <TextBox x:Name="TbPassword" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80"></TextBox>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14">Логин</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14">Пароль</TextBlock>
+            <TextBox x:Name="TbLog" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"></TextBox>
+            <TextBox x:Name="TbPassword" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="80" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"></TextBox>
             <Button x:Name="BnAuth" Click="BnAuth_Click" Grid.Row="2" Grid.ColumnSpan="2">Войти</Button>
          </Grid>
     </Grid>

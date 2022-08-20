@@ -105,5 +105,11 @@ namespace AccountingQualityAcademicWork.Windows
             this._mainWindow.Show();
             this.Hide();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            this._mainWindow.Show();
+            this.Hide();
+        }
     }
 }

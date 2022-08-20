@@ -19,12 +19,12 @@ namespace AccountingQualityAcademicWork.Windows
     /// </summary>
     public partial class AddingStudentWindow : Window
     {
-        private MainWindow mainWindow;
+        private MainWindow _mainWindow;
         public AddingStudentWindow(MainWindow mainWindow)
         {
             InitializeComponent();
             CbGroup.ItemsSource = Models.JournalDBEntities.GetContext().Group.ToList();
-            this.mainWindow = mainWindow;
+            this._mainWindow = mainWindow;
         }
         /// <summary>
         /// Добавление студента
@@ -62,12 +62,18 @@ namespace AccountingQualityAcademicWork.Windows
             }
             finally
             {
-                mainWindow.Show();
+                _mainWindow.Show();
                 this.Hide();
                 MessageBox.Show("Студент добавлен");
             }
         
 
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            this._mainWindow.Show();
+            this.Hide();
         }
     }
 }
