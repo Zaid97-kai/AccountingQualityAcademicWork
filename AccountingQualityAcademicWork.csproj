@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PartialClasses\GenerateAttestationListItem.cs" />
     <Compile Include="PartialClasses\JournalDBEntities.cs" />
     <Compile Include="PartialClasses\Student.cs" />
     <Compile Include="PartialClasses\Users.cs" />

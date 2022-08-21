@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,14 +7,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace AccountingQualityAcademicWork.Windows
 {
-    public class Item
-    {
-        public string Name { get; set; }
-        public List<int> Scores { get; set; } = new List<int>();
-    }
     /// <summary>
     /// Логика взаимодействия для GenerateAttestationListWindow.xaml
     /// </summary>
@@ -23,34 +20,70 @@ namespace AccountingQualityAcademicWork.Windows
         private Models.Group _group;
         private List<Models.Student> _students;
         private List<Models.StudentInReportCard> _studentInReportCards;
-        private ObservableCollection<Item> _items;
+        private ObservableCollection<PartialClasses.GenerateAttestationListItem> _items;
         public GenerateAttestationListWindow(MainWindow mainWindow)
         {
             InitializeComponent();
             _mainWindow = mainWindow;
             _students = new List<Models.Student>();
             _studentInReportCards = new List<Models.StudentInReportCard>();
-            _items = new ObservableCollection<Item>();
+            _items = new ObservableCollection<PartialClasses.GenerateAttestationListItem>();
             CbGroups.ItemsSource = Models.JournalDBEntities.GetContext().Group.ToList().OrderBy(g => g.GroupNumber);
         }
 
         private void BnGenerate_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (!(saveFileDialog.ShowDialog() == true))
+                return;
 
+            var app = new Excel.Application();
+            app.SheetsInNewWorkbook = 1;
+            Excel.Workbook workbook = app.Workbooks.Add(Type.Missing);
+
+            int startRowIndex = 1;
+
+            Excel.Worksheet worksheet = app.Worksheets.Item[1];
+            worksheet.Name = _group.GroupNumber.ToString();
+
+            worksheet.Cells[1][1] = "ФИО студента";
+            for (int j = 2; j < _items[0].Disciplines.Count() + 2; j++)
+            {
+                worksheet.Cells[j][1] = _items[0].Disciplines[j - 2];
+            }
+
+            startRowIndex++;
+
+            foreach (PartialClasses.GenerateAttestationListItem item in _items)
+            {
+                worksheet.Cells[1][startRowIndex] = item.Name;
+                for (int i = 0; i < item.Scores.Count(); i++)
+                {
+                    worksheet.Cells[i + 2][startRowIndex] = item.Scores[i];
+                }
+                startRowIndex++;
+            }
+
+
+            Excel.Range rangeBorders = worksheet.Range[worksheet.Cells[1][1], worksheet.Cells[_items[0].Scores.Count() + 1][startRowIndex - 1]];
+
+            rangeBorders.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle =
+                rangeBorders.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle =
+                rangeBorders.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle =
+                rangeBorders.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle =
+                rangeBorders.Borders[Excel.XlBordersIndex.xlInsideHorizontal].LineStyle =
+                rangeBorders.Borders[Excel.XlBordersIndex.xlInsideVertical].LineStyle = Excel.XlLineStyle.xlDouble;
+
+            worksheet.Columns.AutoFit();
+
+            workbook.SaveAs(saveFileDialog.FileName + ".xlsx");
+            app.Visible = true;
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             this._mainWindow.Show();
             this.Hide();
-        }
-
-        List<T> ConvertArrayList<T>(ArrayList data)
-        {
-            List<T> result = new List<T>(data.Count);
-            foreach (T item in data)
-                result.Add(item);
-            return result;
         }
 
         private void CbGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -61,6 +94,7 @@ namespace AccountingQualityAcademicWork.Windows
             this._studentInReportCards.Clear();
 
             this._group = CbGroups.SelectedItem as Models.Group;
+            this.Title = "Успеваемость группы " + this._group.GroupNumber;
             this._students = Models.JournalDBEntities.GetContext().Student.Where(s => s.Group.Id == _group.Id).ToList();
 
             foreach (var inReportCard in Models.JournalDBEntities.GetContext().StudentInReportCard)
@@ -91,7 +125,7 @@ namespace AccountingQualityAcademicWork.Windows
 
             foreach (var student in _students)
             {
-                _items.Add(new Item() { Name = student.FullName });
+                _items.Add(new PartialClasses.GenerateAttestationListItem() { Name = student.FullName });
                 foreach (var element in elements)
                 {
                     foreach (var item in element)
@@ -101,6 +135,14 @@ namespace AccountingQualityAcademicWork.Windows
                             _items[_items.Count - 1].Scores.Add(item.Score);
                         }
                     }
+                }
+            }
+
+            for (int i = 0; i < _items.Count(); i++)
+            {
+                for (int j = 0; j < elements.Count(); j++)
+                {
+                    _items[i].Disciplines.Add(elements[j].Key);
                 }
             }
 
